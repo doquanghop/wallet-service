@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class UserResponse {
+public class AccountResponse {
     private String id;
     private String accessToken;
     private String refreshToken;

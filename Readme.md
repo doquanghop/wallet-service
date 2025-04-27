@@ -2,6 +2,18 @@
 
 This is a **Wallet Service** for handling user wallets, transactions, deposits, and withdrawals. It includes features for managing wallet balances, performing transactions such as deposits, withdrawals, and transfers, as well as logging transaction activities. The system supports managing user accounts and securely handling payments.
 
+## API Documentation
+
+Detailed API specifications, including endpoints, request/response formats, and error codes, are available in the following Google Sheets document:
+
+- **API Specification and Error Codes**: [View Google Sheets](https://docs.google.com/spreadsheets/d/1Krw9iX8vBfCq1_6MNlKubYfb5JenaoL-HPp7dqDcEF8/edit?usp=sharing)
+
+This document includes:
+- API endpoints for managing accounts, wallets, transactions, deposit requests, withdrawal requests, and transaction logs.
+- Error codes with HTTP status, code, type, message, and descriptions.
+- Status definitions for tracking API completion (SUCCESS, FAILED, PENDING, TIMEOUT).
+
+
 ## Features
 
 - User Registration & Authentication (passwords are stored securely with hashing).

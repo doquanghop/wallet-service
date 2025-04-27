@@ -2,10 +2,18 @@ package io.github.doquanghop.walletsystem.core.account.service;
 
 import io.github.doquanghop.walletsystem.core.account.datatransferobject.request.LoginRequest;
 import io.github.doquanghop.walletsystem.core.account.datatransferobject.request.RegisterRequest;
-import io.github.doquanghop.walletsystem.core.account.datatransferobject.response.UserResponse;
+import io.github.doquanghop.walletsystem.core.account.datatransferobject.response.AccountResponse;
 
 public interface AccountService {
-    UserResponse register(RegisterRequest request);
+    void register(RegisterRequest request);
 
-    UserResponse login(LoginRequest request);
+    AccountResponse login(LoginRequest request);
+
+    void logout(LogoutRequest request);
+
+    UserDetail authenticate(String accessToken);
+
+    AccountResponse refreshToken(RefreshTokenRequest request);
+
+    boolean isValidActiveAccount(String accountId);
 }
