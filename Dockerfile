@@ -6,10 +6,10 @@ WORKDIR /app
 
 # Copy the packaged JAR from the target directory into the container
 # (Make sure to run 'mvn clean package' before building the Docker image)
-COPY target/queue-booking-system-0.0.1.jar app.jar
+COPY target/wallet-service-0.0.1.jar app.jar
 
 # Expose the port that your microservice uses
-EXPOSE 8081
+EXPOSE 8080
 
 # Run the JAR file
 ENTRYPOINT ["java", "-jar", "app.jar"]

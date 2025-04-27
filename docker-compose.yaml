@@ -1,20 +1,20 @@
 networks:
-  ticketing-network:
+  wallet-network:
     driver: bridge
 
 services:
   mysql:
     image: mysql:8.0
-    container_name: ticketing_mysql
+    container_name: wallet_mysql
     environment:
       MYSQL_ROOT_PASSWORD: Hop2005@
-      MYSQL_DATABASE: ticketing_db
+      MYSQL_DATABASE: wallet_db
     ports:
       - "3306:3306"  # The default MySQL port.
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - ticketing-network
+      - wallet-network
 
     healthcheck:
       test: [ "CMD-SHELL", "mysqladmin -u root -p$MYSQL_ROOT_PASSWORD ping" ]
@@ -25,7 +25,7 @@ services:
 
   redis:
     image: redis:7
-    container_name: ticketing_redis
+    container_name: wallet_redis
     environment:
       REDIS_PASSWORD: redis_password
     command: redis-server --requirepass redis_password
@@ -34,25 +34,13 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - ticketing-network
+      - wallet-network
     healthcheck:
       test: [ "CMD", "redis-cli", "-a", "redis_password", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
     restart: unless-stopped
-
-  eureka-server:
-    image: eureka-server:latest
-    build:
-      context: eureka-server22
-    container_name: eureka-server
-    ports:
-      - "8761:8761"
-    environment:
-      - EUREKA_SERVER_PORT=8761
-    networks:
-      - ticketing-network
       
 volumes:
   mysql_data:
