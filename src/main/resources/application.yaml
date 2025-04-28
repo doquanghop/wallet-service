@@ -25,3 +25,12 @@ spring:
       expiry:
         access-token: ${JWT_ACCESS_TOKEN_EXPIRY}
         refresh-token: ${JWT_REFRESH_TOKEN_EXPIRY}
+
+
+  openapi:
+    service:
+      api-docs: Wallet API
+      server: ${OPENAPI_SERVER_URL}
+      package: io.github.doquanghop.walletsystem
+      title: API Service
+      version: 1.0.0

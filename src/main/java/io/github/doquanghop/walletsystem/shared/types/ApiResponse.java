@@ -74,7 +74,18 @@ public class ApiResponse<T> {
                 .body(this);
     }
 
-    public static <T> ResponseEntity<ApiResponse<T>> success(T data) {
-        return ApiResponse.<T>build().withData(data).toEntity();
+    public static ResponseEntity<ApiResponse<Void>> success(String message) {
+        return buildSuccessResponse(null, message != null ? message : "Success");
+    }
+
+    public static <T> ResponseEntity<ApiResponse<T>> success(T data, String message) {
+        return buildSuccessResponse(data, message);
+    }
+
+    private static <T> ResponseEntity<ApiResponse<T>> buildSuccessResponse(T data, String message) {
+        return ApiResponse.<T>build()
+                .withData(data)
+                .withMessage(message != null ? message : "Success")
+                .toEntity();
     }
 }

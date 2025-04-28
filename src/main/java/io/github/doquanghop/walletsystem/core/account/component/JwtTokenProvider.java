@@ -1,15 +1,14 @@
 package io.github.doquanghop.walletsystem.core.account.component;
 
-import com.github.doquanghop.chat_app.domain.account.data.dto.TokenDTO;
-import com.github.doquanghop.chat_app.domain.account.data.dto.TokenMetadataDTO;
-import com.github.doquanghop.chat_app.domain.account.exception.AccountException;
-import com.github.doquanghop.chat_app.infrastructure.model.AppException;
-import com.github.doquanghop.chat_app.infrastructure.model.ResourceException;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import io.github.doquanghop.walletsystem.core.account.datatransferobject.TokenDTO;
+import io.github.doquanghop.walletsystem.core.account.datatransferobject.TokenMetadataDTO;
+import io.github.doquanghop.walletsystem.core.account.exception.TokenException;
+import io.github.doquanghop.walletsystem.shared.exceptions.AppException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -63,7 +62,7 @@ public class JwtTokenProvider {
             jwsObject.sign(new MACSigner(secretKey));
             return jwsObject.serialize();
         } catch (JOSEException e) {
-            throw new AppException(ResourceException.UNEXPECTED_ERROR);
+            throw new AppException(TokenException.UNEXPECTED_TOKEN_ERROR);
         }
     }
 
@@ -73,19 +72,19 @@ public class JwtTokenProvider {
             JWSObject jwsObject = JWSObject.parse(token);
 
             if (!jwsObject.verify(new MACVerifier(secretKey))) {
-                throw new AppException(AccountException.INVALID_TOKEN);
+                throw new AppException(TokenException.INVALID_TOKEN);
             }
 
             JWTClaimsSet claims = signedJWT.getJWTClaimsSet();
             Date expirationTime = claims.getExpirationTime();
 
             if (expirationTime != null && expirationTime.before(new Date())) {
-                throw new AppException(AccountException.EXPIRED_TOKEN);
+                throw new AppException(TokenException.EXPIRED_TOKEN);
             }
 
             return claims;
         } catch (ParseException | JOSEException e) {
-            throw new AppException(ResourceException.UNEXPECTED_ERROR);
+            throw new AppException(TokenException.UNEXPECTED_TOKEN_ERROR);
         }
     }
 
@@ -101,7 +100,7 @@ public class JwtTokenProvider {
     public String getSessionIdFromClaims(JWTClaimsSet claims) {
         Object sessionId = claims.getClaim(CLAIM_SESSION_ID);
         if (sessionId == null) {
-            throw new AppException(ResourceException.ACCESS_DENIED);
+            throw new AppException(TokenException.INVALID_TOKEN);
         }
         return sessionId.toString();
     }
@@ -115,7 +114,7 @@ public class JwtTokenProvider {
         JWTClaimsSet refreshClaims = verifyToken(refreshToken);
         JWTClaimsSet accessClaim = verifyToken(accessToken);
         if (!getSessionIdFromClaims(refreshClaims).equals(getSessionIdFromClaims(accessClaim))) {
-            throw new AppException(AccountException.INVALID_TOKEN);
+            throw new AppException(TokenException.INVALID_TOKEN);
         }
         return accessClaim;
     }
