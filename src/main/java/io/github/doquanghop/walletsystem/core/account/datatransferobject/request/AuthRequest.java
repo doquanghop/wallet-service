@@ -1,13 +1,15 @@
 package io.github.doquanghop.walletsystem.core.account.datatransferobject.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+import lombok.Getter;
+
+@Getter
 public class AuthRequest {
-    private String phoneNumber;
-    private String password;
+    private final String phoneNumber;
+    private final String password;
+
+    public AuthRequest(String phoneNumber, String password) {
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
 }

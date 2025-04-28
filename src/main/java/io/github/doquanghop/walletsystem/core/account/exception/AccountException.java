@@ -1,14 +1,9 @@
 package io.github.doquanghop.walletsystem.core.account.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import io.github.doquanghop.walletsystem.shared.exceptions.ExceptionCode;
 
-@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-@Getter
-@AllArgsConstructor
+
 public enum AccountException implements ExceptionCode {
     ACCOUNT_NOT_FOUND(4304, "ACCOUNT_NOT_FOUND", HttpStatus.NOT_FOUND), // 404
     ACCOUNT_ALREADY_EXISTS(4309, "ACCOUNT_ALREADY_EXISTS", HttpStatus.CONFLICT), // 409
@@ -23,4 +18,26 @@ public enum AccountException implements ExceptionCode {
     private final Integer code;
     private final String type;
     private final HttpStatus httpStatus;
+
+
+    AccountException(Integer code, String type, HttpStatus httpStatus) {
+        this.code = code;
+        this.type = type;
+        this.httpStatus = httpStatus;
+    }
+
+    @Override
+    public Integer getCode() {
+        return code;
+    }
+
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
 }

@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: queue-booking-system
+    name: wallet-service
 
   datasource:
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
@@ -19,13 +19,17 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
   security:
     jwt:
       secret: ${JWT_SECRET}
       expiry:
         access-token: ${JWT_ACCESS_TOKEN_EXPIRY}
         refresh-token: ${JWT_REFRESH_TOKEN_EXPIRY}
-
 
   openapi:
     service:
@@ -34,3 +38,6 @@ spring:
       package: io.github.doquanghop.walletsystem
       title: API Service
       version: 1.0.0
+
+frontend:
+  url: ${FRONTEND_URL}

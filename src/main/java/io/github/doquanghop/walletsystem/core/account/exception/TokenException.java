@@ -1,14 +1,8 @@
 package io.github.doquanghop.walletsystem.core.account.exception;
 
 import io.github.doquanghop.walletsystem.shared.exceptions.ExceptionCode;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 
-@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-@Getter
-@AllArgsConstructor
 public enum TokenException implements ExceptionCode {
     INVALID_TOKEN(4310, "INVALID_TOKEN", HttpStatus.UNAUTHORIZED),
     EXPIRED_TOKEN(4311, "EXPIRED_TOKEN", HttpStatus.UNAUTHORIZED),
@@ -19,4 +13,25 @@ public enum TokenException implements ExceptionCode {
     private final Integer code;
     private final String type;
     private final HttpStatus httpStatus;
+
+    TokenException(Integer code, String type, HttpStatus httpStatus) {
+        this.code = code;
+        this.type = type;
+        this.httpStatus = httpStatus;
+    }
+
+    @Override
+    public Integer getCode() {
+        return code;
+    }
+
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
 }

@@ -22,8 +22,10 @@ public class JwtTokenProvider {
     @Value("${spring.security.jwt.secret}")
     private String secretKey;
 
-    @Value("${spring.security.jwt.expiration}")
-    private long expiration;
+    @Value("${spring.security.jwt.expiry.access-token}")
+    private long expiryAccessToken;
+    @Value("${spring.security.jwt.expiry.refresh-token}")
+    private long expiryRefreshToken;
 
     private static final String CLAIM_ROLE = "role";
     private static final String CLAIM_SESSION_ID = "sessionId";
@@ -31,8 +33,8 @@ public class JwtTokenProvider {
 
     public TokenDTO generateTokens(TokenMetadataDTO tokenMetadata) {
         Date issuedAt = tokenMetadata.issuedAt();
-        Date accessValidity = new Date(issuedAt.getTime() + expiration * 1000);
-        Date refreshValidity = new Date(issuedAt.getTime() + expiration * 1500);
+        Date accessValidity = new Date(issuedAt.getTime() + expiryAccessToken);
+        Date refreshValidity = new Date(issuedAt.getTime() + expiryRefreshToken);
 
 
         String accessToken = generateToken(tokenMetadata.userId(), tokenMetadata.roles(), tokenMetadata.sessionId(), issuedAt, accessValidity);
